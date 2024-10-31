@@ -2,34 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Employees</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #007BFF;
-            color: white;
-        }
-        img {
-            border-radius: 5px;
-        }
-    </style>
 </head>
 <body>
 <h1>Employees</h1>
+<a href="/addEmployee">Add Employee</a>
 <table>
     <tr>
         <th>Employee Name</th>
@@ -38,15 +14,20 @@
         <th>Commission</th>
         <th>Department</th>
         <th>Image</th>
+        <th>Actions</th>
     </tr>
     <tr th:each="employee : ${employees}">
         <td th:text="${employee.ename}"></td>
-        <td th:text="${employee.mgr}"></td>
+        <td th:text="${employee.mgr != null ? (employeeService.findById(employee.mgr).ename) : 'Yok'}"></td>
         <td th:text="${employee.sal}"></td>
         <td th:text="${employee.comm}"></td>
         <td th:text="${employee.department.dname}"></td>
         <td>
             <img th:src="@{/images/{imageName}(imageName=${employee.img})}" onerror="this.src='default-image.png'" width="50"/>
+        </td>
+        <td>
+            <a th:href="@{/editEmployee/{empno}(empno=${employee.empno})}">Update</a>
+            <a th:href="@{/deleteEmployee/{empno}(empno=${employee.empno})}" onclick="return confirm('Do you want to delete this?')">Delete</a>
         </td>
     </tr>
 </table>

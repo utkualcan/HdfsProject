@@ -11,6 +11,7 @@ import lombok.Setter;
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "empno")
     private Integer empno;
 
