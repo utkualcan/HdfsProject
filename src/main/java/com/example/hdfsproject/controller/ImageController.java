@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/images") // Tüm resim istekleri için temel yol
+@RequestMapping("/images")
 public class ImageController {
 
     private final HDFSService hdfsService;
@@ -23,18 +23,18 @@ public class ImageController {
         this.hdfsService = hdfsService;
     }
 
-    @GetMapping("/{fileName}") // Dosya adını dinamik olarak alan yol
+    @GetMapping("/{fileName}")
     public ResponseEntity<byte[]> getImage(@PathVariable String fileName) {
         try {
             byte[] imageBytes = hdfsService.readImage(fileName);
             if (imageBytes == null) {
-                return ResponseEntity.notFound().build(); // Dosya bulunamazsa 404 döndür
+                return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG) // Resim türünü ayarlayın
+                    .contentType(MediaType.IMAGE_JPEG)
                     .body(imageBytes);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Hata durumunda 500 döndür
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

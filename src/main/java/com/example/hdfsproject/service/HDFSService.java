@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class HDFSService {
 
     @Value("${hdfs.baseDir}")
-    private final String hdfsBaseDir = "/testdata/images"; // HDFS dizin yolu
+    private final String hdfsBaseDir = "/testdata/images";
 
     private final FileSystem fileSystem;
     private static final Logger logger = Logger.getLogger(HDFSService.class.getName());
@@ -25,7 +25,7 @@ public class HDFSService {
 
     @PostConstruct
     public void init() {
-        testHDFSConnection(); // HDFS bağlantısını test et
+        testHDFSConnection();
     }
 
     public byte[] readImage(String fileName) throws IOException {
@@ -35,10 +35,10 @@ public class HDFSService {
 
         if (!fileSystem.exists(path)) {
             logger.warning("File does not exist in HDFS: " + path.toString());
-            return null; // Dosya bulunamazsa null döndür
+            return null;
         }
 
-        // HDFS'den dosya açma
+
         try (FSDataInputStream inputStream = fileSystem.open(path)) {
             return inputStream.readAllBytes();
         } catch (IOException e) {
@@ -49,8 +49,7 @@ public class HDFSService {
 
     public void testHDFSConnection() {
         try {
-            // HDFS'ye erişim için küçük bir dosya okuma testi yapıyoruz
-            Path testPath = new Path(hdfsBaseDir); // Test için dizin yolu
+            Path testPath = new Path(hdfsBaseDir);
             if (fileSystem.exists(testPath)) {
                 logger.info("HDFS connection is successful, base directory exists: " + hdfsBaseDir);
             } else {
