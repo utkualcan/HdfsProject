@@ -25,6 +25,6 @@ public class EmployeeController {
         } catch (Exception e) {
             model.addAttribute("error", "Çalışanlar alınamadı: " + e.getMessage());
         }
-        return "employees"; // employees.html
+        return "employees";
     }
 }

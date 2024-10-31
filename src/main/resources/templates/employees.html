@@ -46,8 +46,7 @@
         <td th:text="${employee.comm}"></td>
         <td th:text="${employee.department.dname}"></td>
         <td>
-            <img th:src="@{/hdfs-image/{fileName}(fileName=${employee.img})}"
-                 onerror="this.src='default-image.png'" width="50"/>
+            <img th:src="@{/images/{imageName}(imageName=${employee.img})}" onerror="this.src='default-image.png'" width="50"/>
         </td>
     </tr>
 </table>
