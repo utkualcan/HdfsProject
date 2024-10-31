@@ -23,7 +23,7 @@ public class EmployeeController {
             employees = employeeService.findAll();
             model.addAttribute("employees", employees);
         } catch (Exception e) {
-            model.addAttribute("error", "Çalışanlar alınamadı: " + e.getMessage());
+            model.addAttribute("error", "Employees couldn't taken." + e.getMessage());
         }
         return "employees";
     }
