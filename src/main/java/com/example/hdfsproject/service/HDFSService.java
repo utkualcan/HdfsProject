@@ -1,11 +1,13 @@
 package com.example.hdfsproject.service;
 
 import jakarta.annotation.PostConstruct;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,13 +32,29 @@ public class HDFSService {
     @PostConstruct
     public void init() {
         testHDFSConnection();
+        // Log the file system class type
+        logger.info("File system class: " + fileSystem.getClass().getName());
+    }
+
+    public void uploadFile(MultipartFile file, String fileName) throws IOException {
+        Path hdfsPath = new Path(hdfsBaseDir + "/" + fileName);
+        try (InputStream inputStream = file.getInputStream();
+             FSDataOutputStream outputStream = fileSystem.create(hdfsPath, true)) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            logger.info("File uploaded to HDFS: " + hdfsPath);
+        } catch (IOException e) {
+            logger.severe("Failed to upload file to HDFS: " + e.getMessage());
+            throw e;
+        }
     }
 
     public byte[] readImage(String fileName) throws IOException {
-
         String hdfsFileUri = "http://localhost:50070/webhdfs/v1" + hdfsBaseDir + "/" + fileName + "?op=OPEN";
         logger.info("Attempting to read file: " + hdfsFileUri);
-
 
         HttpURLConnection connection = null;
         try {

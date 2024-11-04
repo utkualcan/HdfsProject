@@ -15,7 +15,7 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     public List<Employee> findAllWithManagers() {
-        return employeeRepository.findAllWithManagers(); // Repository'den yöneticili çalışanları alıyoruz.
+        return employeeRepository.findAllWithManagers();
     }
 
     public List<Employee> findAll() {

@@ -5,37 +5,40 @@
 </head>
 <body>
 <h2>Add Employee</h2>
-<form action="#" th:action="@{/addEmployee}" th:object="${employee}" method="post">
-    <label for="ename">Employee Name:</label>
-    <input type="text" id="ename" th:field="*{ename}" required><br>
+    <form action="#" th:action="@{/addEmployee}" th:object="${employee}" method="post" enctype="multipart/form-data">
+        <label for="ename">Employee Name:</label>
+        <input type="text" id="ename" th:field="*{ename}" required><br>
 
-    <label for="job">Job:</label>
-    <input type="text" id="job" th:field="*{job}" required><br>
+        <label for="job">Job:</label>
+        <input type="text" id="job" th:field="*{job}" required><br>
 
-    <label for="mgr">Manager:</label>
-    <select id="mgr" th:field="*{mgr}">
-        <option value="">None</option>
-        <option th:each="manager : ${employees}" th:value="${manager.empno}" th:text="${manager.ename}"></option>
-    </select><br>
+        <label for="mgr">Manager:</label>
+        <select id="mgr" th:field="*{mgr}">
+            <option value="">None</option>
+            <option th:each="manager : ${employees}" th:value="${manager.empno}" th:text="${manager.ename}"></option>
+        </select><br>
 
-    <label for="hiredate">Hire Date:</label>
-    <input type="text" id="hiredate" th:field="*{hiredate}" required><br>
+        <label for="hiredate">Hire Date:</label>
+        <input type="text" id="hiredate" th:field="*{hiredate}" required><br>
 
-    <label for="sal">Salary:</label>
-    <input type="number" id="sal" th:field="*{sal}" required><br>
+        <label for="sal">Salary:</label>
+        <input type="number" id="sal" th:field="*{sal}" required><br>
 
-    <label for="comm">Commission:</label>
-    <input type="number" id="comm" th:field="*{comm}"><br>
+        <label for="comm">Commission:</label>
+        <input type="number" id="comm" th:field="*{comm}"><br>
 
-    <label for="department">Department:</label>
-    <select id="department" th:field="*{department.deptno}">
-        <option th:each="department : ${departments}" th:value="${department.deptno}" th:text="${department.dname}"></option>
-    </select><br>
+        <label for="department">Department:</label>
+        <select id="department" th:field="*{department.deptno}">
+            <option th:each="department : ${departments}" th:value="${department.deptno}" th:text="${department.dname}"></option>
+        </select><br>
 
-    <label for="img">Image URL:</label>
-    <input type="text" id="img" th:field="*{img}"><br>
+        <label for="img">Image URL:</label>
+        <input type="text" id="img" th:field="*{img}"><br>
 
-    <button type="submit">Add Employee</button>
-</form>
+        <label for="file">Upload Image:</label>
+        <input type="file" id="file" name="file"><br>
+
+        <button type="submit">Add Employee</button>
+    </form>
 </body>
 </html>

@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Edit Employee</h2>
-    <form action="#" th:action="@{/editEmployee/{empno}(empno=${employee.empno})}" th:object="${employee}" method="post">
+    <form action="#" th:action="@{/editEmployee/{empno}(empno=${employee.empno})}" th:object="${employee}" method="post" enctype="multipart/form-data">
         <label for="ename">Employee Name:</label>
         <input type="text" id="ename" th:field="*{ename}" required><br>
 
@@ -36,8 +36,12 @@
             </option>
         </select><br>
 
-        <label for="img">Image URL:</label>
-        <input type="text" id="img" th:field="*{img}"><br>
+        <label for="img">Image Upload:</label>
+        <input type="file" id="img" name="file"><br>
+
+        <label for="imgUrl">Existing Image URL:</label>
+        <input type="text" id="imgUrl" th:field="*{img}"><br>
+
         <button type="submit">Update Employee</button>
     </form>
 </body>
