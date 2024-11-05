@@ -9,22 +9,16 @@
             min-height: 100vh;
             font-family: Inter, sans-serif;
         }
-
         section {
             background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
             padding: 3rem;
             border-radius: 0.5rem;
             color: white;
             width: 70%;
-            max-width: 1024px; /* Set a max width for larger screens */
-            margin: 5rem auto; /* Centering the section */
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 1024px;
+            margin: auto;
+            overflow: auto;
         }
-
-        .form-label {
-            color: white;
-        }
-
         button, .btn-back {
             width: 100%;
             padding: 1rem;
@@ -35,67 +29,65 @@
             cursor: pointer;
             transition: all ease-in 0.3s;
         }
-
         button:hover, .btn-back:hover {
             background: rgba(255, 255, 255, 0.6);
         }
-
         .btn-back {
-            background: black; /* Ensure the button has a black background */
-            color: white; /* Text color for the back button */
-            text-align: center; /* Center text in the button */
+            background: black;
+            color: white;
+            text-align: center;
+            display: block;
         }
-
-        a {
-            text-decoration: none; /* Remove underline from anchor */
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
         }
     </style>
-
     <title>Edit Employee</title>
 </head>
 <body>
-<section class="section">
-    <h2 class="text-center">Edit Employee</h2>
-    <form action="#" th:action="@{/editEmployee/{empno}(empno=${employee.empno})}" th:object="${employee}" method="post" enctype="multipart/form-data" class="d-flex flex-column">
-        <label class="form-label" for="ename">Employee Name:</label>
-        <input type="text" class="form-control mb-3" id="ename" th:field="*{ename}" required>
+<header class="header">
+    <h1 class="logo">Edit Employee</h1>
+</header>
+<section class="d-flex flex-column justify-content-center align-items-center">
+    <h2 class="section-title">Edit Employee</h2>
+    <form style="width: 100%;" action="#" th:action="@{/editEmployee/{empno}(empno=${employee.empno})}" th:object="${employee}" method="post" enctype="multipart/form-data">
+        <label for="ename">Employee Name:</label>
+        <input type="text" id="ename" th:field="*{ename}" required><br>
 
-        <label class="form-label" for="job">Job:</label>
-        <input type="text" class="form-control mb-3" id="job" th:field="*{job}" required>
+        <label for="job">Job:</label>
+        <input type="text" id="job" th:field="*{job}" required><br>
 
-        <label class="form-label" for="mgr">Manager:</label>
-        <select class="form-select mb-3" id="mgr" th:field="*{mgr}">
+        <label for="mgr">Manager:</label>
+        <select id="mgr" th:field="*{mgr}">
             <option value="">None</option>
             <option th:each="manager : ${employees}" th:value="${manager.empno}" th:text="${manager.ename}"></option>
-        </select>
+        </select><br>
 
-        <label class="form-label" for="hiredate">Hire Date:</label>
-        <input type="text" class="form-control mb-3" id="hiredate" th:field="*{hiredate}" required>
+        <label for="hiredate">Hire Date (DD-MMM-YYYY):</label>
+        <input type="text" id="hiredate" th:field="*{hiredate}" placeholder="17-DEC-1980" required pattern="\d{2}-[A-Z]{3}-\d{4}"><br>
 
-        <label class="form-label" for="sal">Salary:</label>
-        <input type="number" class="form-control mb-3" id="sal" th:field="*{sal}" required>
+        <label for="sal">Salary:</label>
+        <input type="number" id="sal" th:field="*{sal}" required><br>
 
-        <label class="form-label" for="comm">Commission:</label>
-        <input type="number" class="form-control mb-3" id="comm" th:field="*{comm}">
+        <label for="comm">Commission:</label>
+        <input type="number" id="comm" th:field="*{comm}"><br>
 
-        <label class="form-label" for="department">Department:</label>
-        <select class="form-select mb-3" id="department" th:field="*{department.deptno}">
-            <option th:each="department : ${departments}"
-                    th:value="${department.deptno}"
-                    th:text="${department.dname}"
-                    th:selected="${department.deptno == employee.department.deptno}">
-            </option>
-        </select>
+        <label for="department">Department:</label>
+        <select id="department" th:field="*{department.deptno}">
+            <option th:each="department : ${departments}" th:value="${department.deptno}" th:text="${department.dname}"></option>
+        </select><br>
 
-        <label class="form-label" for="img">Image Upload:</label>
-        <input type="file" class="form-control mb-3" id="img" name="file">
+        <label for="img">Image URL:</label>
+        <input type="text" id="img" th:field="*{img}"><br>
 
-        <label class="form-label" for="imgUrl">Existing Image URL:</label>
-        <input type="text" class="form-control mb-3" id="imgUrl" th:field="*{img}">
+        <label for="file">Upload Image:</label>
+        <input type="file" id="file" name="file"><br>
 
-        <button type="submit">Update Employee</button>
-        <a href="/employees" class="btn-back">Back to Employee List</a>
+        <button type="submit">Edit Employee</button>
     </form>
+    <a href="/employees" class="btn-back">Back to Employee List</a>
 </section>
 </body>
 </html>

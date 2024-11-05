@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -24,6 +27,8 @@ public class EmployeeController {
 
     @Autowired
     private HDFSService hdfsService;
+
+    private static final String DATE_FORMAT = "dd-MMM-yyyy"; // Veritabanındaki tarih formatı
 
     @GetMapping("/employees")
     public String getEmployees(Model model) {
@@ -51,11 +56,18 @@ public class EmployeeController {
             } else if (employee.getImg() == null || employee.getImg().isEmpty()) {
                 employee.setImg("default-image.png");
             }
+            // Kullanıcının girdiği hiredate string olarak alınıyor
+            String hireDateStr = employee.getHiredate();
+            if (hireDateStr != null && !hireDateStr.isEmpty()) {
+                // Hire date format kontrolü ve dönüşümü
+                Date hireDate = new SimpleDateFormat(DATE_FORMAT).parse(hireDateStr);
+                employee.setHiredate(new SimpleDateFormat(DATE_FORMAT).format(hireDate));
+            }
             employeeService.save(employee);
             return "redirect:/employees";
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
-            model.addAttribute("message", "Image upload failed!");
+            model.addAttribute("message", "Image upload failed or date format is incorrect! Please use DD-MMM-YYYY.");
             return "error";
         }
     }
@@ -80,11 +92,17 @@ public class EmployeeController {
                 employee.setImg("default-image.png");
             }
             employee.setEmpno(empno);
+            // Hire date format kontrolü ve dönüşümü
+            String hireDateStr = employee.getHiredate();
+            if (hireDateStr != null && !hireDateStr.isEmpty()) {
+                Date hireDate = new SimpleDateFormat(DATE_FORMAT).parse(hireDateStr);
+                employee.setHiredate(new SimpleDateFormat(DATE_FORMAT).format(hireDate));
+            }
             employeeService.save(employee);
             return "redirect:/employees";
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
-            model.addAttribute("message", "Image upload failed!");
+            model.addAttribute("message", "Image upload failed or date format is incorrect! Please use DD-MMM-YYYY.");
             return "error";
         }
     }
