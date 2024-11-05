@@ -28,7 +28,7 @@ public class EmployeeController {
     @Autowired
     private HDFSService hdfsService;
 
-    private static final String DATE_FORMAT = "dd-MMM-yyyy"; // Veritabanındaki tarih formatı
+    private static final String DATE_FORMAT = "dd-MMM-yyyy";
 
     @GetMapping("/employees")
     public String getEmployees(Model model) {
@@ -56,10 +56,9 @@ public class EmployeeController {
             } else if (employee.getImg() == null || employee.getImg().isEmpty()) {
                 employee.setImg("default-image.png");
             }
-            // Kullanıcının girdiği hiredate string olarak alınıyor
+
             String hireDateStr = employee.getHiredate();
             if (hireDateStr != null && !hireDateStr.isEmpty()) {
-                // Hire date format kontrolü ve dönüşümü
                 Date hireDate = new SimpleDateFormat(DATE_FORMAT).parse(hireDateStr);
                 employee.setHiredate(new SimpleDateFormat(DATE_FORMAT).format(hireDate));
             }
@@ -92,7 +91,6 @@ public class EmployeeController {
                 employee.setImg("default-image.png");
             }
             employee.setEmpno(empno);
-            // Hire date format kontrolü ve dönüşümü
             String hireDateStr = employee.getHiredate();
             if (hireDateStr != null && !hireDateStr.isEmpty()) {
                 Date hireDate = new SimpleDateFormat(DATE_FORMAT).parse(hireDateStr);

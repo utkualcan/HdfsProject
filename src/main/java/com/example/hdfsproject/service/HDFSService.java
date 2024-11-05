@@ -32,7 +32,6 @@ public class HDFSService {
     @PostConstruct
     public void init() {
         testHDFSConnection();
-        // Log the file system class type
         logger.info("File system class: " + fileSystem.getClass().getName());
     }
 
